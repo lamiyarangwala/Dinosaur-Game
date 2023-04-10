@@ -1,53 +1,65 @@
 
 package edu.nyu.cs;
-import processing.core.*; // import the base Processing library
-// import processing.core.PApplet;
+import processing.core.PApplet;
 import processing.core.PVector;
+
+import java.util.ArrayList;
+
 import edu.nyu.cs.Game.Player;
+import edu.nyu.cs.Game.obstacle;
+
 
 
 public class App extends PApplet {
-    int x_initial = 100;
-    int y_initial = 520;
-    int radius = 50;
-    int width = 1000;
-    int height = 800;
-    int v1 = 203;
-    int v2 = 195;
-    int v3 = 227;
-
-    Player u = new Player(x_initial, y_initial, radius);
-    // PVector gravity = new PVector(0, (float) 0.1);
+    Player u;
+    int groundHeight = 50;
+    //PVector gravity = new PVector(0, (float) 0.1);
+    ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
+    
     public void settings() {
-        this.setSize(width, height);
+        this.setSize(800, 400);
+    }
+
+    public void setup() {       
+        u =  new Player(100,0,50);
+
+    }
+
+    public void draw(PApplet app) {
+        System.out.println("hi");
+        background(203, 195, 227);
+        u.draw(this);
+        u.jumping();
+        line(0, height-groundHeight-30, width, height-groundHeight-30);
+        
+        if(Math.random()<0.5&&app.frameCount % 60 == 0) {
+
+          this.draw();
+
+    }
 }
 
-    public void setup() {
-        this.background(v1, v2, v3);
-        u.draw(this);
-    }
-
-    public void draw() {
-        this.background(v1, v2, v3);
-        u.draw(this);
-        u.move();
-    }
-
     public void keyPressed() {
-        System.out.println(String.format("Key pressed: %s, key code: %d.", this.key, this.keyCode));
-        switch (this.key) {
+        switch (key) {
             case ' ':
-            if (u.getJumping() == false) {
-                u.jump();
-                u.move();
-            }
-            break;     
+            // test to see if keyboard input registered
+            // System.out.println("hi");
+            u.jump();
+            break;
+            
+
         }
     }
+
+    
+    
+    
+
     
     public static void main(String[] args) {
         
         // Processing requires us to pass our full package + class name to its main method.
         PApplet.main("edu.nyu.cs.App");
+      
     }
 }
