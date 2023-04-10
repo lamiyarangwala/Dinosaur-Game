@@ -1,65 +1,76 @@
+// Add customized dinosaurs, sound effect, objects, background, game features (jumping, ducking, obstacle speed), scoreboard counter, game restart
 
 package edu.nyu.cs;
-import processing.core.PApplet;
-import processing.core.PVector;
-
-import java.util.ArrayList;
-
+import processing.core.*; // import the base Processing library
+// import processing.core.PApplet;
 import edu.nyu.cs.Game.Player;
-import edu.nyu.cs.Game.obstacle;
-
-
+import java.util.ArrayList;
+import edu.nyu.cs.Game.*;
 
 public class App extends PApplet {
-    Player u;
-    int groundHeight = 50;
-    //PVector gravity = new PVector(0, (float) 0.1);
-    ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
-    
+    int x_initial = 100;
+    int y_initial = 520;
+    int radius = 50;
+    int width = 1000;
+    int height = 800;
+    int v1 = 203;
+    int v2 = 195;
+    int v3 = 227;
+
+    Player u = new Player(x_initial, y_initial, radius);
+    Background background = new Background(0, y_initial + radius / 2, width, y_initial + radius / 2);
+    ArrayList<obstacle_2> obstacles = new ArrayList<obstacle_2>();
+
     public void settings() {
-        this.setSize(800, 400);
-    }
-
-    public void setup() {       
-        u =  new Player(100,0,50);
-
-    }
-
-    public void draw(PApplet app) {
-        System.out.println("hi");
-        background(203, 195, 227);
-        u.draw(this);
-        u.jumping();
-        line(0, height-groundHeight-30, width, height-groundHeight-30);
-        
-        if(Math.random()<0.5&&app.frameCount % 60 == 0) {
-
-          this.draw();
-
-    }
+        this.setSize(width, height);
 }
 
-    public void keyPressed() {
-        switch (key) {
-            case ' ':
-            // test to see if keyboard input registered
-            // System.out.println("hi");
-            u.jump();
-            break;
-            
-
-        }
+    public void setup() {
+        this.background(v1, v2, v3);
+        u.draw(this);
+        for (int i = 0; i<200; i++) {
+            obstacle_2 o = new obstacle_2();
+            obstacles.add(o);
+        } 
+           
     }
 
-    
-    
-    
+    public void draw() {
+        this.background(v1, v2, v3);
+        u.draw(this);
+        u.move();
+        background.draw(this);
+        
+        for (int i = 0; i<obstacles.size(); i++){
+            // System.out.println(obstacles.get(i));
+            obstacle_2 obs = obstacles.get(i);
+            // System.out.Format("x: %f, tall: %f, width: %f", obs.getX(), obs.getTall(), obs.getWidth()));
+            System.out.print("x: "+ obs.getX());
+            System.out.print("tall: "+ obs.getTall());
+            System.out.print("width: "+ obs.getWidth());
+            obs.update();
+            obs.draw(this);
+            if (!obs.getOnScreen()){
+                continue;
+            }
+        }
+        
+    }
 
+    public void keyPressed() {
+        System.out.println(String.format("Key pressed: %s, key code: %d.", this.key, this.keyCode));
+        switch (this.key) {
+            case ' ':
+            if (u.getJumping() == false) {
+                u.jump();
+                u.move();
+            }
+            break;     
+        }
+    }
     
     public static void main(String[] args) {
-        
         // Processing requires us to pass our full package + class name to its main method.
         PApplet.main("edu.nyu.cs.App");
-      
     }
 }

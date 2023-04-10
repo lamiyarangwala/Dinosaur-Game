@@ -34,6 +34,7 @@ public class App extends PApplet {
             // test to see if keyboard input registered
             // System.out.println("hi");
             u.jump();
+            System.out.println("HI");
             break;
             
 
