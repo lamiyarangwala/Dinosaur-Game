@@ -5,10 +5,12 @@ import processing.core.PApplet;
 
 
 public class obstacle_2 {
+  
     float tall;
-    float width=20;
+    float width=getRandomNumber(20, 60);
+    //float width=20;
     float x;
-    float obsSpeed = 3;
+    float obsSpeed = 5;
     boolean onScreen;
     ArrayList<obstacle_2> obstacles = new ArrayList<obstacle_2>();
 
@@ -17,8 +19,9 @@ public class obstacle_2 {
         return num;
     }
     public obstacle_2 () {
-        this.x = 1000+ this.width;
-        this.tall = getRandomNumber(150,180);
+        this.x = 1000 + this.width;
+        this.tall = getRandomNumber(55,85);
+        //this.tall = 55;
         this.onScreen = true;
 
     }
@@ -35,7 +38,7 @@ public class obstacle_2 {
         app.stroke(0,0,0);
         app.strokeWeight(2);
         // app.rectMode(CENTER);
-        app.rect(this.x, app.height-520-(this.tall), this.width, this.tall);
+        app.rect(this.x, app.height-this.tall-255, this.width, this.tall);
         // app.rect(this.x, this.tall + 520, this.width, this.tall);
         // app.rect(this.x, app.height-this.tall, this.width, this.tall-110);
 

@@ -41,24 +41,38 @@ public class App extends PApplet {
         u.move();
         background.draw(this);
         
-        for (int i = 0; i<obstacles.size(); i++){
-            // System.out.println(obstacles.get(i));
-            obstacle_2 obs = obstacles.get(i);
-            // System.out.Format("x: %f, tall: %f, width: %f", obs.getX(), obs.getTall(), obs.getWidth()));
-            System.out.print("x: "+ obs.getX());
-            System.out.print("tall: "+ obs.getTall());
-            System.out.print("width: "+ obs.getWidth());
-            obs.update();
-            obs.draw(this);
-            if (!obs.getOnScreen()){
-                continue;
-            }
+        //for (int i = 0; i<obstacles.size(); i++){
+        if(random(1)<0.8&&frameCount % 60 == 0){
+            obstacles.add(new obstacle_2());
         }
         
-    }
+
+            for(int i=obstacles.size()-1; i>=0; i--){
+            obstacle_2 p = obstacles.get(i);
+            p.update();
+            p.draw(this);
+            // System.out.println(obstacles.get(i));
+            // obstacle_2 obs = obstacles.get(i);
+            // System.out.Format("x: %f, tall: %f, width: %f", obs.getX(), obs.getTall(), obs.getWidth()));
+            // System.out.print("x: "+ obs.getX());
+            // System.out.print("tall: "+ obs.getTall());
+            // System.out.print("width: "+ obs.getWidth());
+            
+            
+            
+            }
+            // obs.update();
+            // obs.draw(this);
+            // break;
+        }
+            // if (!obs.getOnScreen()){
+            
+        
+        
+    
 
     public void keyPressed() {
-        System.out.println(String.format("Key pressed: %s, key code: %d.", this.key, this.keyCode));
+        //System.out.println(String.format("Key pressed: %s, key code: %d.", this.key, this.keyCode));
         switch (this.key) {
             case ' ':
             if (u.getJumping() == false) {

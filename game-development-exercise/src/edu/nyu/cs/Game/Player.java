@@ -23,17 +23,17 @@ public class Player {
 
     public void jump() {
         setVelY(150);
-        setGravity(150);
+        setGravity(50);
         setJumping(true);
     }
     
     public void move() {
         if (getJumping() == true) {
-            setY(getY() - getVelY() * 1/30);
-            setVelY(getVelY() - getGravity() * 1/30);
+            setY(getY() - getVelY() * 1/20);
+            setVelY(getVelY() - getGravity() * 1/20);
             setGravity(getGravity() + 5);
-            System.out.println(String.format("y: %f, velY: %f, g: %f", getY(), getVelY(), getGravity()));
-            if (getY() - getVelY() * 1/30 > 520) {
+            //System.out.println(String.format("y: %f, velY: %f, g: %f", getY(), getVelY(), getGravity()));
+            if (getY() - getVelY() * 1/20 > 520) {
                 setY(520);
                 setJumping(false);
             }
