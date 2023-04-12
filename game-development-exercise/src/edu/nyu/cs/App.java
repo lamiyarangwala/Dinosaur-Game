@@ -1,83 +1,79 @@
 // Add customized dinosaurs, sound effect, objects, background, game features (jumping, ducking, obstacle speed), scoreboard counter, game restart
 
 package edu.nyu.cs;
-import processing.core.*; // import the base Processing library
-// import processing.core.PApplet;
-import edu.nyu.cs.Game.Player;
+import processing.core.PApplet;
 import java.util.ArrayList;
+import java.util.Iterator;
 import edu.nyu.cs.Game.*;
 
 public class App extends PApplet {
-    int x_initial = 100;
-    int y_initial = 520;
-    int radius = 50;
-    int width = 1000;
-    int height = 800;
-    int v1 = 203;
-    int v2 = 195;
-    int v3 = 227;
+    int playerX = 100; // intial x position of Player
+    int playerY = 520; // intial y position of Player
+    int playerWidth = 50; // width of player
+    int playerHeight = 100; // height of player
+    int screenWidth = 1000; // screen width
+    int screenHeight = 800; // screen height
+    int v1 = 203; // background v1
+    int v2 = 195; // background v2
+    int v3 = 227; // background v3
 
-    Player u = new Player(x_initial, y_initial, radius);
-    Background background = new Background(0, y_initial + radius / 2, width, y_initial + radius / 2);
-    ArrayList<obstacle_2> obstacles = new ArrayList<obstacle_2>();
+    Player player = new Player(playerX, playerY, playerWidth, playerHeight);
+    Background background = new Background(0, playerY + playerHeight, screenWidth, playerY + playerHeight);
+    ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 
     public void settings() {
-        this.setSize(width, height);
+        this.setSize(screenWidth, screenHeight);
 }
 
     public void setup() {
         this.background(v1, v2, v3);
-        u.draw(this);
-        for (int i = 0; i<200; i++) {
-            obstacle_2 o = new obstacle_2();
-            obstacles.add(o);
-        } 
-           
+        player.draw(this);
+        // for (int i = 0; i<200; i++) {
+        //     obstacle_2 o = new obstacle_2();
+        //     obstacles.add(o);
+        // } 
     }
 
     public void draw() {
         this.background(v1, v2, v3);
-        u.draw(this);
-        u.move();
+        player.draw(this);
+        player.move();
         background.draw(this);
-        
-        //for (int i = 0; i<obstacles.size(); i++){
-        if(random(1)<0.8&&frameCount % 60 == 0){
-            obstacles.add(new obstacle_2());
+        // instantiates random new obstacles
+        if(random(1) < 0.8 && frameCount % 60 == 0) {
+            obstacles.add(new Obstacle(screenWidth, playerY, playerHeight, player));
         }
-        
 
-            for(int i=obstacles.size()-1; i>=0; i--){
-            obstacle_2 p = obstacles.get(i);
-            p.update();
-            p.draw(this);
-            // System.out.println(obstacles.get(i));
-            // obstacle_2 obs = obstacles.get(i);
-            // System.out.Format("x: %f, tall: %f, width: %f", obs.getX(), obs.getTall(), obs.getWidth()));
-            // System.out.print("x: "+ obs.getX());
-            // System.out.print("tall: "+ obs.getTall());
-            // System.out.print("width: "+ obs.getWidth());
-            
-            
-            
+        // for(int i=obstacles.size()-1; i>=0; i--) {
+        //     Obstacle p = obstacles.get(i);
+        //     if (p.getOnScreen()) {
+        //         p.update();
+        //         p.draw(this);
+        //     }
+        // }
+
+        // Trying to remove objects from the class that are no longer on the screen, currently not working
+        Iterator<Obstacle> iterator = obstacles.iterator();
+        while (iterator.hasNext()) {
+            Obstacle obstacle = iterator.next();
+            if (obstacle.getOnScreen()) {
+                obstacle.update();
+                obstacle.draw(this);
+            } else {
+                iterator.remove();
+                // System.out.println("removed");
             }
-            // obs.update();
-            // obs.draw(this);
-            // break;
         }
-            // if (!obs.getOnScreen()){
-            
-        
-        
-    
+        // System.out.println(obstacles.size());
+        }
 
     public void keyPressed() {
         //System.out.println(String.format("Key pressed: %s, key code: %d.", this.key, this.keyCode));
         switch (this.key) {
             case ' ':
-            if (u.getJumping() == false) {
-                u.jump();
-                u.move();
+            if (player.getJumping() == false) {
+                player.jump();
+                player.move();
             }
             break;     
         }

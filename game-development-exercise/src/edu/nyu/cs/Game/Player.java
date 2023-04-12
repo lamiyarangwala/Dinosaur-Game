@@ -1,57 +1,61 @@
 package edu.nyu.cs.Game;
 import processing.core.PApplet;
-import processing.core.PVector;
 
 public class Player {
-    // int x_initial = 100;
-    // int y_initial = 520;
-    // float fps = 1/60;
-
-    private float x = 100;
-    private float y;
+    private float x; // Top left x position
+    private float y; // Top right y position
     private float velY;
     private float gravity;
-    private int radius;
+    private int width;
+    private int height;
     private boolean jumping;
+    // private float fps;
+    private float yInitial;
 
-    public Player(int x, int y, int radius) {
+    public Player(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
-        this.radius = radius;
+        this.width = width;
+        this.height = height;
         this.jumping = false;
+        // this.fps  = 1/20;
+        this.yInitial = y;
     } 
 
     public void jump() {
-        setVelY(150);
+        setVelY(160);
         setGravity(50);
         setJumping(true);
     }
     
     public void move() {
         if (getJumping() == true) {
-            setY(getY() - getVelY() * 1/20);
-            setVelY(getVelY() - getGravity() * 1/20);
-            setGravity(getGravity() + 5);
+            setY(getY() - getVelY() * 1/20); // Change y position
+            setVelY(getVelY() - getGravity() * 1/20); // Change velocity
+            setGravity(getGravity() + 5); // Change gravity
             //System.out.println(String.format("y: %f, velY: %f, g: %f", getY(), getVelY(), getGravity()));
-            if (getY() - getVelY() * 1/20 > 520) {
-                setY(520);
+
+            // If next jump will be below the ground, return to player to original position
+            if (getY() - getVelY() * 1/20 > getYInitial()) {
+                setY(getYInitial());
                 setJumping(false);
             }
         }
     }
     
     public void draw(PApplet app) {
-        app.circle(getX(), getY(), getRadius());
-        app.line(getX() + getRadius() / 2, getY() + getRadius() / 2, getX() + getRadius() / 2, getY() - getRadius() / 2);
+        app.rect(getX(), getY(), getWidth(), getHeight());
     }
 
     // Getters
     public float getX() {return this.x;}
-    public int getRadius() {return this.radius;}
     public float getY() {return this.y;}
+    public int getWidth() {return this.width;}
+    public int getHeight() {return this.height;}
     public float getVelY() {return this.velY;}
     public float getGravity() {return this.gravity;}
     public boolean getJumping() {return this.jumping;}
+    public float getYInitial() {return this.yInitial;}
     // Setters
     public void setY(float y) {if (y>0 && y<1000) this.y = y;}
     public void setVelY(float velY) {if (true) this.velY = velY;}
